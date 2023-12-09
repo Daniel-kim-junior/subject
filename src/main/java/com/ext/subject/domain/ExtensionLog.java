@@ -7,10 +7,12 @@ import static lombok.AccessLevel.*;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.ext.subject.util.common.ExtReqType;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ import lombok.NoArgsConstructor;
 @Table(
 	name = "extension_log"
 )
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = PROTECTED)
 public class ExtensionLog {
 

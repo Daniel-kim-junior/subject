@@ -1,5 +1,6 @@
 package com.ext.subject.dto;
 
+import static com.ext.subject.util.common.ExtensionCategory.*;
 import static lombok.AccessLevel.*;
 
 import java.io.Serializable;
@@ -7,13 +8,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 import com.ext.subject.domain.Extension;
-import com.ext.subject.util.common.ExtensionCategory;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +22,11 @@ public class ExtensionDto {
 	@Getter
 	@NoArgsConstructor(access = PROTECTED)
 	public static class PatchFixedReqDto {
+
+		@NotBlank(message = "요청이 잘못 되었습니다")
 		private String extName;
 
+		@NotNull(message = "요청이 잘못 되었습니다")
 		private Boolean isActivate;
 
 		public PatchFixedReqDto(final String extName, final Boolean isActivate) {
@@ -37,8 +39,10 @@ public class ExtensionDto {
 	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class GetFixedResDto {
+		@NotNull
 		private String extName;
 
+		@NotNull
 		private Boolean isActivate;
 
 		@Builder
@@ -51,8 +55,11 @@ public class ExtensionDto {
 	@NoArgsConstructor
 	@Getter
 	public static class FixedListCacheData implements Serializable {
+
+		@NotNull
 		private List<GetFixedResDto> data;
 
+		@NotNull
 		private LocalDateTime expirationDate;
 
 		@Builder
@@ -91,8 +98,10 @@ public class ExtensionDto {
 	@NoArgsConstructor
 	@Getter
 	public static class CustomListCacheData implements Serializable {
+		@NotNull
 		private List<GetCustomResDto> data;
 
+		@NotNull
 		private LocalDateTime expirationDate;
 
 		@Builder
@@ -122,6 +131,7 @@ public class ExtensionDto {
 	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class GetCustomResDto {
+		@NotNull
 		private String extName;
 
 		@Builder
@@ -133,6 +143,8 @@ public class ExtensionDto {
 	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class DeleteCustomReqDto {
+
+		@NotBlank(message = "요청이 잘못 되었습니다")
 		private String extName;
 
 		public DeleteCustomReqDto(final String extName) {
@@ -143,7 +155,7 @@ public class ExtensionDto {
 	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class PostCustomReqDto {
-		@NotBlank(message = "공백이 포함되어 있습니다")
+		@NotBlank(message = "요청이 잘못 되었거나 공백이 포함되어 있습니다")
 		@Size(min = 1, max = 20, message = "1글자에서 20글자 사이로 입력해주세요.")
 		@Pattern(regexp = "^[a-zA-Z]*$", message = "영어만 입력 가능합니다.")
 		private String extName;
@@ -151,10 +163,34 @@ public class ExtensionDto {
 		public PostCustomReqDto(final String extName) {
 			this.extName = extName;
 		}
-		public Extension customDtoToExtension(final PostCustomReqDto dto) {
+		public Extension customDtoToExtension() {
 			return Extension.builder()
-				.name(dto.extName)
-				.category(ExtensionCategory.CUSTOM)
+				.name(this.extName)
+				.category(CUSTOM)
+				.build();
+		}
+	}
+
+	@Getter
+	@NoArgsConstructor(access = PROTECTED)
+	public static class PostFixedReqDto {
+
+		@NotBlank(message = "요청이 잘못 되었거나 공백이 포함되어 있습니다")
+		@Size(min = 1, max = 20, message = "1글자에서 20글자 사이로 입력해주세요.")
+		@Pattern(regexp = "^[a-zA-Z]*$", message = "영어만 입력 가능합니다.")
+		private String extName;
+
+		private Boolean isActivate;
+
+		public PostFixedReqDto(String extName) {
+			this.extName = extName;
+			this.isActivate = false;
+		}
+
+		public Extension dtoToFixExtension() {
+			return Extension.builder()
+				.name(this.extName)
+				.category(FIXED)
 				.build();
 		}
 	}

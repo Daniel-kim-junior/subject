@@ -35,7 +35,6 @@ public class Extension {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ext_id")
 	private Long id;
 
 

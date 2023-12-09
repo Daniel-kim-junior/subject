@@ -36,14 +36,14 @@ public class ApiResponse<T> {
 	// Hibernate Validator에 의해 유효하지 않은 데이터로 인해 API 호출이 거부될때 반환
 	public static ApiResponse<?> createHibernateFail(final ConstraintViolationException ex) {
 		Map<String, String> error = new HashMap<>();
-		error.put(ex.getConstraintName(), ex.getMessage());
+		error.put("extName", "중복된 확장자이거나 서버에 문제가 생겼습니다");
 		return new ApiResponse<>(FAIL_STATUS, error, null);
 
 	}
 
 	// 예외 발생으로 API 호출 실패시 반환
-	public static <T> ApiResponse<T> createError(final String message) {
-		return new ApiResponse<>(ERROR_STATUS, null, message);
+	public static <T> ApiResponse<T> createError(final T data) {
+		return new ApiResponse<>(ERROR_STATUS, data, null);
 	}
 
 

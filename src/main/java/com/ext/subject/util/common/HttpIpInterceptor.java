@@ -30,4 +30,6 @@ public class HttpIpInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
+
+
 }
