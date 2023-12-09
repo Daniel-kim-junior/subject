@@ -17,6 +17,13 @@ gantt
     
 ```
 
+||개발 환경|
+|--|----|
+|프론트엔드|Vue.js|
+|백엔드|SpringBoot 3|
+|DB|MySQL 8.0|
+|배포|Docker, Nginx, AWS EC2|
+
 ## 2. 요구사항 정의
 
 |요구사항| 구현 |
