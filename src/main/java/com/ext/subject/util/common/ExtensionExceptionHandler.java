@@ -1,4 +1,4 @@
-package com.ext.subject.util;
+package com.ext.subject.util.common;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

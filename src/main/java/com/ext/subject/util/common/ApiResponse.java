@@ -1,4 +1,4 @@
-package com.ext.subject.util;
+package com.ext.subject.util.common;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +46,7 @@ public class ApiResponse<T> {
 			if(error instanceof FieldError) {
 				errors.put(((FieldError) error).getField(), error.getDefaultMessage());
 			} else {
-				errors.put( error.getObjectName(), error.getDefaultMessage());
+				errors.put(error.getObjectName(), error.getDefaultMessage());
 			}
 		}
 

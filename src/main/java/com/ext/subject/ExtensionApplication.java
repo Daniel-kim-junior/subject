@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.ext.subject.repository")
-public class SubjectApplication {
+public class ExtensionApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SubjectApplication.class, args);
+		SpringApplication.run(ExtensionApplication.class, args);
 	}
 
 }
