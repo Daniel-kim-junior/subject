@@ -36,7 +36,7 @@ gantt
 
 |추가 기능|구현|
 |--------|----|
-|1. 서버 관리자가 확장자를 변경 생성 삭제 로그를 접속 ip와 남긴다||
+|1. 서버 관리자가 확장자를 변경 생성 삭제 로그를 접속 ip와 남긴다|:heavy_check_mark:|
 |2. 확장자 리스트는 서버에서 캐싱한다|:heavy_check_mark:|
 |3.  이미 활성화한 커스텀 확장자면 중복된 확장자이기 때문에 추가 불가|:heavy_check_mark:|
 |4. 공백이 포함되었거나 특수문자 한글 등 영어가 아닌 커스텀 확장자는 추가할 수 없다|:heavy_check_mark:|
@@ -82,11 +82,11 @@ gantt
 
 |Api Path|Method|Request|Response |Description|구현|
 |--------|-------|---------|----------|-----------|----|
-|/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{name : string, isActivate : boolean}]}|고정 확장자 리스트 제공|:heavy_check_mark:|
-|/api-v1/ext-fixed|PATCH|Body{extName : string, isActivate : boolean }|{response : string}|고정 확장자 상태 변경|:heavy_check_mark:|
-|/api-v1/ext-custom-list|GET|None|Body{ext-list : [{name : string}]}|커스텀 확장자 리스트 제공|:heavy_check_mark:|
-|/api-v1/ext-custom|POST|Body{ext-name : string}|{response : string}|커스텀 확장자 생성|:heavy_check_mark:|
-|/api-v1/ext-custom|Delete|Body{ext-name : string}|{response : string}|커스텀 확장자 삭제|:heavy_check_mark:|
+|/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{extName : string, isActivate : boolean}]}|고정 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/ext-fixed|PATCH|Body{extName : string, isActivate : boolean }|{status : string, message : string}|고정 확장자 상태 변경|:heavy_check_mark:|
+|/api-v1/ext-custom-list|GET|None|Body{ext-list : [{extName : string}]}|커스텀 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/ext-custom|POST|Body{ext-name : string}|{status : string, message : string}|커스텀 확장자 생성|:heavy_check_mark:|
+|/api-v1/ext-custom|Delete|Body{ext-name : string}|{status : string, message : string}|커스텀 확장자 삭제|:heavy_check_mark:|
 
 
 ## 5. 예외 정의
