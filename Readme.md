@@ -89,22 +89,19 @@ gantt
 |/api-v1/ext-custom|Delete|Body{ext-name : string}|{status : string, message : string}|커스텀 확장자 삭제|:heavy_check_mark:|
 
 
-## 5. 예외 정의
-
-
-
 
 ## 5. 도메인 분석 및 설계
 
 
-
-
-
 ## 6.  ERD와 매핑
 
+## 7. 예외 정의
+
+
+## 8. 테스트
 
 
 
-## 7. 배포 아키텍쳐
+## 9. 배포 아키텍쳐
 
 
