@@ -74,8 +74,8 @@ gantt
 |캐싱과 트랜젝션을 관리하는 Service 계층을 만든다||
 |클라이언트의 요청을 받는 Controller를 작성한다||
 |예외를 반환할 클래스를 작성한다||
-|고정 확장자 리스트를 제공해주는 /fixed-list 메소드를 만든다(GET)||
-|고정 확장자의 상태를 변경해주는 /fixed-list 메소드를 만든다(PATCH)||
+|고정 확장자 리스트를 제공해주는 /ext-fixed-list 메소드를 만든다(GET)||
+|고정 확장자의 상태를 변경해주는 /ext-fixed 메소드를 만든다(PATCH)||
 |커스텀 확장자 리스트를 제공해주는 /custom-list 메소드를 만든다(GET)||
 |커스텀 확장자 생성을 제공해주는 /ext-custom 메소드를 만든다(POST) ||
 |커스텀 확장자 삭제를 제공해주는 /ext-custom 메소드를 만든다(DELETE)||
@@ -86,7 +86,7 @@ gantt
 |Api Path|Method|Request|Response |Description|구현|
 |--------|-------|---------|----------|-----------|----|
 |/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{name : string, active : boolean}]}|고정 확장자 리스트 제공||
-|/api-v1/ext-fixed-list|PATCH|Body{ext-name : string}|{response : string}|고정 확장자 상태 변경|
+|/api-v1/ext-fixed|PATCH|Body{ext-name : string}|{response : string}|고정 확장자 상태 변경|
 |/api-v1/ext-custom-list|GET|None|Body{ext-list : [{name : string}]}|커스텀 확장자 리스트 제공||
 |/api-v1/ext-custom|POST|Body{ext-name : string}|{response : string}|커스텀 확장자 생성||
 |/api-v1/ext-custom|Delete|Body{ext-name : string}|{response : string}|커스텀 확장자 삭제||
