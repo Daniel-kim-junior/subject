@@ -22,7 +22,7 @@ gantt
 |요구사항| 구현 |
 |--------|-----|
 |1. bat, cmd, com, cpl, exe, scr, js 리스트는 고정적으로 존재해야 한다| |
-|2. 확장자는 고정 확장자/커스텀 확장자로 나누어져야 한다| |
+|2. 확장자는 고정 확장자/커스텀 확장자로 나누어져야 한다| :heavy_check_mark: |
 |3. 고정 확장자 리스트는 체크 박스가 존재해야 한다| |
 | 4. 고정 확장자 리스트에서 체크 박스를 클릭시 활성화/비활성화 기능을 제공해야 한다 | |
 |5. 확장자 차단 리스트는 리로드 시에도 유지되어야 한다||
@@ -37,7 +37,7 @@ gantt
 |추가 기능|구현|
 |--------|----|
 |1. 서버 관리자가 확장자를 변경한 로그를 남긴다| |
-|2. 확장자 리스트는 서버에서 캐싱한다||
+|2. 확장자 리스트는 서버에서 캐싱한다|:heavy_check_mark:|
 |3.  이미 활성화한 커스텀 확장자면 중복된 확장자이기 때문에 추가 불가||
 |4. 고정 확장자에 속해 있는(활성화 안된) 확장자를 커스텀 추가하려고 하면 alert 후 고정 확장자 활성화 한다||
 |5. 고정 확장자에 속해 있는(활성화 된) 확장자를 커스텀 추가하려고 하면 alert(고정 확장자입니다)||
@@ -67,29 +67,28 @@ gantt
 
 |백엔드|구현|
 |-----|----|
-|ERD와 도메인 설계를 바탕으로 확장자 Entity를 작성한다||
-|ERD와 도메인 설계를 바탕으로 로그 Entity를 작성한다||
-|DB에 접근하는 Repository를 작성한다||
+|ERD와 도메인 설계를 바탕으로 확장자 Entity를 작성한다|:heavy_check_mark:|
+|ERD와 도메인 설계를 바탕으로 로그 Entity를 작성한다|:heavy_check_mark:|
+|DB에 접근하는 Repository를 작성한다|:heavy_check_mark:|
 |데이터를 전송하는 DTO를 만들어 유효성을 검사한다||
-|캐싱과 트랜젝션을 관리하는 Service 계층을 만든다||
-|클라이언트의 요청을 받는 Controller를 작성한다||
+|캐싱과 트랜젝션을 관리하는 Service 계층을 만든다|:heavy_check_mark:|
+|클라이언트의 요청을 받는 Controller를 작성한다|:heavy_check_mark:|
 |예외를 반환할 클래스를 작성한다||
-|고정 확장자 리스트를 제공해주는 /fixed-list 메소드를 만든다(GET)||
-|고정 확장자의 상태를 변경해주는 /fixed-list 메소드를 만든다(PATCH)||
-|커스텀 확장자 리스트를 제공해주는 /custom-list 메소드를 만든다(GET)||
-|커스텀 확장자 생성을 제공해주는 /ext-custom 메소드를 만든다(POST) ||
-|커스텀 확장자 삭제를 제공해주는 /ext-custom 메소드를 만든다(DELETE)||
-|커스텀 확장자 중복을 확인해주는 /ext-custom-dup 메소드를 만든다(GET)||
+|고정 확장자 리스트를 제공해주는 /ext-fixed-list 메소드를 만든다(GET)|:heavy_check_mark:|
+|고정 확장자의 상태를 변경해주는 /ext-fixed 메소드를 만든다(PATCH)|:heavy_check_mark:|
+|커스텀 확장자 리스트를 제공해주는 /custom-list 메소드를 만든다(GET)|:heavy_check_mark:|
+|커스텀 확장자 생성을 제공해주는 /ext-custom 메소드를 만든다(POST) |:heavy_check_mark:|
+|커스텀 확장자 삭제를 제공해주는 /ext-custom 메소드를 만든다(DELETE)|:heavy_check_mark:|
 
 ## 4. API 명세서
 
 |Api Path|Method|Request|Response |Description|구현|
 |--------|-------|---------|----------|-----------|----|
-|/api_v1/ext-fixed-list|GET|None|Body{ext-list : [{name : string, active : boolean}]}|고정 확장자 리스트 제공||
-|/api_v1/ext-fixed-list|PATCH|Body{ext-name : string}|{response : string}|고정 확장자 상태 변경|
-|/api_v1/ext-custom-list|GET|None|Body{ext-list : [{name : string}]}|커스텀 확장자 리스트 제공||
-|/api_v1/ext-custom|POST|Body{ext-name : string}|{response : string}|커스텀 확장자 생성||
-|/api_v1/ext-custom|Delete|Body{ext-name : string}|{response : string}|커스텀 확장자 삭제||
+|/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{name : string, isActivate : boolean}]}|고정 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/ext-fixed|PATCH|Body{extName : string, isActivate : boolean }|{response : string}|고정 확장자 상태 변경|:heavy_check_mark:|
+|/api-v1/ext-custom-list|GET|None|Body{ext-list : [{name : string}]}|커스텀 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/ext-custom|POST|Body{ext-name : string}|{response : string}|커스텀 확장자 생성|:heavy_check_mark:|
+|/api-v1/ext-custom|Delete|Body{ext-name : string}|{response : string}|커스텀 확장자 삭제|:heavy_check_mark:|
 
 
 ## 5. 예외 정의
