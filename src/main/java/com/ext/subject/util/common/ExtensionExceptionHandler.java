@@ -23,4 +23,10 @@ public class ExtensionExceptionHandler {
 	public ApiResponse<?> handleHibernateViolationException(final ConstraintViolationException ex) {
 		return ApiResponse.createHibernateFail(ex);
 	}
+
+	@ExceptionHandler(ExtensionNotFoundException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ApiResponse<String> handleExtNotFoundException(final ExtensionNotFoundException ex) {
+		return ApiResponse.createError(ex.getMessage());
+	}
 }

@@ -1,6 +1,7 @@
 package com.ext.subject.service;
 
 import static com.ext.subject.dto.ExtensionDto.*;
+import static lombok.AccessLevel.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,7 +10,14 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import com.ext.subject.repository.ExtensionLogRepository;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 @Service
+@NoArgsConstructor(access = PROTECTED)
 public class ExtensionCacheService {
 
 	private static final FixedListCacheData EMPTY_FIXED_CACHE = new FixedListCacheData();

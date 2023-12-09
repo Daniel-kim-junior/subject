@@ -1,5 +1,7 @@
 package com.ext.subject.dto;
 
+import static lombok.AccessLevel.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class ExtensionDto {
 
 	@Getter
-	@NoArgsConstructor
+	@NoArgsConstructor(access = PROTECTED)
 	public static class PatchFixedReqDto {
 		private String extName;
 
@@ -32,7 +34,7 @@ public class ExtensionDto {
 
 	}
 
-	@NoArgsConstructor
+	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class GetFixedResDto {
 		private String extName;
@@ -79,7 +81,7 @@ public class ExtensionDto {
 
 
 
-	@NoArgsConstructor
+	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class PatchFixedResDto {
 
@@ -117,7 +119,7 @@ public class ExtensionDto {
 		}
 	}
 
-	@NoArgsConstructor
+	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class GetCustomResDto {
 		private String extName;
@@ -128,7 +130,7 @@ public class ExtensionDto {
 		}
 	}
 
-	@NoArgsConstructor
+	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class DeleteCustomReqDto {
 		private String extName;
@@ -138,7 +140,7 @@ public class ExtensionDto {
 		}
 	}
 
-	@NoArgsConstructor
+	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class PostCustomReqDto {
 		@NotBlank(message = "공백이 포함되어 있습니다")

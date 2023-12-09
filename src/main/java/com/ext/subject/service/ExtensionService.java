@@ -1,17 +1,19 @@
 package com.ext.subject.service;
 
 import static com.ext.subject.dto.ExtensionDto.*;
+import static com.ext.subject.util.common.ExtReqType.*;
 import static com.ext.subject.util.common.ExtensionCategory.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ext.subject.domain.Extension;
 import com.ext.subject.repository.ExtensionRepository;
 import com.ext.subject.util.common.Exceed200EaCustomExt;
+import com.ext.subject.util.common.ExtensionNotFoundException;
+import com.ext.subject.util.common.HttpIpInterceptor;
+
 
 @Service
 public class ExtensionService {
@@ -22,12 +24,17 @@ public class ExtensionService {
 
 	private final ExtensionLogService extensionLogService;
 
+	private final HttpIpInterceptor httpIpInterceptor;
+
+	private static final String NOT_FOUND_EXT = "삭제 하려는 확장자가 존재하지 않습니다";
 	protected ExtensionService(final ExtensionRepository extensionRepository,
 		final ExtensionCacheService extensionCacheService,
-		final ExtensionLogService extensionLogService) {
+		final ExtensionLogService extensionLogService,
+		final HttpIpInterceptor httpIpInterceptor) {
 		this.extensionCacheService = extensionCacheService;
 		this.extensionRepository = extensionRepository;
 		this.extensionLogService = extensionLogService;
+		this.httpIpInterceptor = httpIpInterceptor;
 	}
 
 	@Transactional
@@ -43,20 +50,24 @@ public class ExtensionService {
 		readCustomExtensions();
 		Extension extension = extensionRepository.save(dto.customDtoToExtension(dto));
 		extensionCacheService.refreshCustomExtensions(readCustomExtensions());
-		// extensionLogService.createExtLog(extension.makeLog(extension));
+		extensionLogService.createExtLog(extension.makeLog(extension, httpIpInterceptor.getIp(), CREATE));
 	}
 
 
 	@Transactional
 	public void updateFixExtension(final PatchFixedReqDto dto) {
-		extensionRepository.findByName(dto.getExtName()).changeActiveStatus();
+		Extension extension = extensionRepository.findByName(dto.getExtName())
+			.orElseThrow(() -> new ExtensionNotFoundException(NOT_FOUND_EXT));
 		extensionCacheService.refreshFixedExtensions(readFixedExtensions());
+		extensionLogService.createExtLog(extension.makeLog(extension, httpIpInterceptor.getIp(), extension.getFixedLogType()));
 	}
 
 	@Transactional
 	public void deleteCustomExtension(final DeleteCustomReqDto dto) {
-		extensionRepository.findByName(dto.getExtName());
+		Extension extension = extensionRepository.findByName(dto.getExtName())
+			.orElseThrow(() -> new ExtensionNotFoundException(NOT_FOUND_EXT));
 		extensionCacheService.refreshCustomExtensions(readCustomExtensions());
+		extensionLogService.createExtLog(extension.makeLog(extension, httpIpInterceptor.getIp(), DELETE));
 	}
 
 	@Transactional(readOnly = true)

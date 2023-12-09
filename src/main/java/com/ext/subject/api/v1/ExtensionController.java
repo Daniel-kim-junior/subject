@@ -1,6 +1,7 @@
 package com.ext.subject.api.v1;
 
 import static com.ext.subject.dto.ExtensionDto.*;
+import static lombok.AccessLevel.*;
 
 import java.util.List;
 
@@ -17,13 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ext.subject.service.ExtensionService;
 import com.ext.subject.util.common.ApiResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 @RestController
 @Validated
 @RequestMapping(value = "/api-v1")
 public class ExtensionController {
 	private final ExtensionService extensionService;
 
-	protected ExtensionController(final ExtensionService extensionService) {
+	public ExtensionController(final ExtensionService extensionService) {
 		this.extensionService = extensionService;
 	}
 
@@ -53,6 +58,7 @@ public class ExtensionController {
 
 	@DeleteMapping("/ext-custom")
 	public ApiResponse deleteCustomExt(final DeleteCustomReqDto dto) {
+
 		extensionService.deleteCustomExtension(dto);
 		return ApiResponse.createSuccessNoContent();
 	}

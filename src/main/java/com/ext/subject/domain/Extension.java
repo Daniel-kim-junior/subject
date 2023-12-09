@@ -2,8 +2,10 @@ package com.ext.subject.domain;
 
 import static com.ext.subject.dto.ExtensionDto.*;
 import static jakarta.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
 
 import com.ext.subject.dto.ExtensionDto;
+import com.ext.subject.util.common.ExtReqType;
 import com.ext.subject.util.common.ExtensionCategory;
 
 import jakarta.persistence.Column;
@@ -19,7 +21,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
-@NoArgsConstructor
 @Table(
 	name = "extension",
 	uniqueConstraints = {
@@ -29,10 +30,11 @@ import lombok.NonNull;
 		)
 	}
 )
+@NoArgsConstructor(access = PROTECTED)
 public class Extension {
 
 	@Id
-	@GeneratedValue(strategy = AUTO)
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ext_id")
 	private Long id;
 
@@ -56,12 +58,17 @@ public class Extension {
 		return this;
 	}
 
-	// public ExtensionLog makeLog(Extension extension) {
-	// 	return ExtensionLog.builder()
-	// 		.changeIp()
-	// 		.changeMac()
-	// 		.build();
-	// }
+	public ExtReqType getFixedLogType() {
+		return isActivate ? ExtReqType.ACTIVATE : ExtReqType.DEACTIVATE;
+	}
+
+	public ExtensionLog makeLog(Extension extension, String ip, ExtReqType extReqType) {
+		return ExtensionLog.builder()
+			.extension(extension)
+			.extReqType(extReqType)
+			.changeIp(ip)
+			.build();
+	}
 
 	public GetFixedResDto fixExtToDto() {
 		return GetFixedResDto.builder()

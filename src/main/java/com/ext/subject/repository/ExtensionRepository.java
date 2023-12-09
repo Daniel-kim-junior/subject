@@ -1,6 +1,7 @@
 package com.ext.subject.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,6 @@ public interface ExtensionRepository extends JpaRepository<Extension, Long> {
 
 	List<Extension> findByCategory(ExtensionCategory category);
 
-	Extension findByName(String name);
+	Optional<Extension> findByName(String name);
 
 }
