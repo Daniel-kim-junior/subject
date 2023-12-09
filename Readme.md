@@ -74,7 +74,7 @@ gantt
 |캐싱과 트랜젝션을 관리하는 Service 계층을 만든다|:heavy_check_mark:|
 |클라이언트의 요청을 받는 Controller를 작성한다|:heavy_check_mark:|
 |예외를 반환할 클래스를 작성한다||
-|고정 확장자 리스트를 제공해주는 /ext-fixed-list 메소드를 만든다(GET)|:heavy_check_mark:|
+|고정 확장자 리스트를 제공해주는 /ext-fixed-list 메소드를 만든다(GET)|:heavy_check_mark:|
 |고정 확장자의 상태를 변경해주는 /ext-fixed 메소드를 만든다(PATCH)|:heavy_check_mark:|
 |커스텀 확장자 리스트를 제공해주는 /custom-list 메소드를 만든다(GET)|:heavy_check_mark:|
 |커스텀 확장자 생성을 제공해주는 /ext-custom 메소드를 만든다(POST) |:heavy_check_mark:|
