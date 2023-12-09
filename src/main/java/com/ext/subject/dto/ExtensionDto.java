@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import com.ext.subject.domain.Extension;
 import com.ext.subject.util.common.ExtensionCategory;
 
@@ -21,7 +25,7 @@ public class ExtensionDto {
 
 		private Boolean isActivate;
 
-		public PatchFixedReqDto(String extName, Boolean isActivate) {
+		public PatchFixedReqDto(final String extName, final Boolean isActivate) {
 			this.extName = extName;
 			this.isActivate = isActivate;
 		}
@@ -36,7 +40,7 @@ public class ExtensionDto {
 		private Boolean isActivate;
 
 		@Builder
-		public GetFixedResDto(String extName, Boolean isActivate) {
+		public GetFixedResDto(final String extName, final Boolean isActivate) {
 			this.extName = extName;
 			this.isActivate = isActivate;
 		}
@@ -50,7 +54,7 @@ public class ExtensionDto {
 		private LocalDateTime expirationDate;
 
 		@Builder
-		public FixedListCacheData(List<GetFixedResDto> data, LocalDateTime expirationDate) {
+		public FixedListCacheData(final List<GetFixedResDto> data, final LocalDateTime expirationDate) {
 			this.data = data;
 			this.expirationDate = expirationDate;
 		}
@@ -90,7 +94,7 @@ public class ExtensionDto {
 		private LocalDateTime expirationDate;
 
 		@Builder
-		public CustomListCacheData(List<GetCustomResDto> data, LocalDateTime expirationDate) {
+		public CustomListCacheData(final List<GetCustomResDto> data, final LocalDateTime expirationDate) {
 			this.data = data;
 			this.expirationDate = expirationDate;
 		}
@@ -119,7 +123,7 @@ public class ExtensionDto {
 		private String extName;
 
 		@Builder
-		public GetCustomResDto(String extName) {
+		public GetCustomResDto(final String extName) {
 			this.extName = extName;
 		}
 	}
@@ -129,7 +133,7 @@ public class ExtensionDto {
 	public static class DeleteCustomReqDto {
 		private String extName;
 
-		public DeleteCustomReqDto(String extName) {
+		public DeleteCustomReqDto(final String extName) {
 			this.extName = extName;
 		}
 	}
@@ -137,12 +141,15 @@ public class ExtensionDto {
 	@NoArgsConstructor
 	@Getter
 	public static class PostCustomReqDto {
+		@NotBlank(message = "공백이 포함되어 있습니다")
+		@Size(min = 1, max = 20, message = "1글자에서 20글자 사이로 입력해주세요.")
+		@Pattern(regexp = "^[a-zA-Z]*$", message = "영어만 입력 가능합니다.")
 		private String extName;
 
-		public PostCustomReqDto(String extName) {
+		public PostCustomReqDto(final String extName) {
 			this.extName = extName;
 		}
-		public Extension customDtoToExtension(PostCustomReqDto dto) {
+		public Extension customDtoToExtension(final PostCustomReqDto dto) {
 			return Extension.builder()
 				.name(dto.extName)
 				.category(ExtensionCategory.CUSTOM)

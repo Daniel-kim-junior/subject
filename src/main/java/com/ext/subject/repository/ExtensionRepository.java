@@ -8,17 +8,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ext.subject.domain.Extension;
-import com.ext.subject.dto.ExtensionDto.GetCustomResDto;
-import com.ext.subject.dto.ExtensionDto.GetFixedResDto;
+import com.ext.subject.util.common.ExtensionCategory;
 
 @Repository
 public interface ExtensionRepository extends JpaRepository<Extension, Long> {
 
-	@Query(value = "select new GetFixedResDto(e.name, e.isActivate) from Extension e where e.category = :category", nativeQuery = true)
-	List<GetFixedResDto> findByCategoryFixed(@Param("category") String category);
+	List<Extension> findByCategory(ExtensionCategory category);
 
 	Extension findByName(String name);
 
-	@Query(value = "select new GetCustomResDto(e.name) from Extension e where e.category = :category", nativeQuery = true)
-	List<GetCustomResDto> findByCategoryCustom(@Param("category") String category);
 }

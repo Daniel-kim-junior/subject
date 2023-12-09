@@ -8,9 +8,9 @@ import com.ext.subject.service.ExtensionCacheService;
 @Component
 public class CacheScheduler {
 
-	private ExtensionCacheService extensionCacheService;
+	private final ExtensionCacheService extensionCacheService;
 
-	public CacheScheduler(ExtensionCacheService extensionCacheService) {
+	protected CacheScheduler(final ExtensionCacheService extensionCacheService) {
 		this.extensionCacheService = extensionCacheService;
 	}
 

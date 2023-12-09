@@ -1,7 +1,9 @@
 package com.ext.subject.domain;
 
+import static com.ext.subject.dto.ExtensionDto.*;
 import static jakarta.persistence.GenerationType.*;
 
+import com.ext.subject.dto.ExtensionDto;
 import com.ext.subject.util.common.ExtensionCategory;
 
 import jakarta.persistence.Column;
@@ -29,12 +31,6 @@ import lombok.NonNull;
 )
 public class Extension {
 
-	@Builder
-	public Extension(String name, ExtensionCategory category) {
-		this.name = name;
-		this.category = category;
-	}
-
 	@Id
 	@GeneratedValue(strategy = AUTO)
 	@Column(name = "ext_id")
@@ -59,5 +55,30 @@ public class Extension {
 		isActivate = isActivate == true ? false : true;
 		return this;
 	}
+
+	// public ExtensionLog makeLog(Extension extension) {
+	// 	return ExtensionLog.builder()
+	// 		.changeIp()
+	// 		.changeMac()
+	// 		.build();
+	// }
+
+	public GetFixedResDto fixExtToDto() {
+		return GetFixedResDto.builder()
+			.extName(this.name)
+			.isActivate(this.isActivate)
+			.build();
+	}
+
+	public GetCustomResDto customExtToDto() {
+		return GetCustomResDto.builder().build();
+	}
+
+	@Builder
+	public Extension(final String name, final ExtensionCategory category) {
+		this.name = name;
+		this.category = category;
+	}
+
 
 }

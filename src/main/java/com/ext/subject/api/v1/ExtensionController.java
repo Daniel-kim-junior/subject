@@ -4,6 +4,9 @@ import static com.ext.subject.dto.ExtensionDto.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,14 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ext.subject.service.ExtensionService;
 import com.ext.subject.util.common.ApiResponse;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
+@Validated
 @RequestMapping(value = "/api-v1")
-@RequiredArgsConstructor
 public class ExtensionController {
-	private ExtensionService extensionService;
+	private final ExtensionService extensionService;
 
+	protected ExtensionController(final ExtensionService extensionService) {
+		this.extensionService = extensionService;
+	}
 
 	@GetMapping("/ext-fixed-list")
 	public ApiResponse<List<GetFixedResDto>> getFixedList() {
@@ -36,19 +40,19 @@ public class ExtensionController {
 	}
 
 	@PatchMapping("/ext-fixed")
-	public ApiResponse patchFixedExt(PatchFixedReqDto dto) {
+	public ApiResponse patchFixedExt(final PatchFixedReqDto dto) {
 		extensionService.updateFixExtension(dto);
 		return ApiResponse.createSuccessNoContent();
 	}
 
 	@PostMapping("/ext-custom")
-	public ApiResponse postCustomExt(PostCustomReqDto dto) {
+	public ApiResponse postCustomExt(@Valid final PostCustomReqDto dto) {
 		extensionService.createCustomExtension(dto);
 		return ApiResponse.createSuccessNoContent();
 	}
 
 	@DeleteMapping("/ext-custom")
-	public ApiResponse deleteCustomExt(DeleteCustomReqDto dto) {
+	public ApiResponse deleteCustomExt(final DeleteCustomReqDto dto) {
 		extensionService.deleteCustomExtension(dto);
 		return ApiResponse.createSuccessNoContent();
 	}
