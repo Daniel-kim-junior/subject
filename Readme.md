@@ -85,8 +85,8 @@ gantt
 
 |Api Path|Method|Request|Response |Description|구현|
 |--------|-------|---------|----------|-----------|----|
-|/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{name : string, active : boolean}]}|고정 확장자 리스트 제공||
-|/api-v1/ext-fixed|PATCH|Body{ext-name : string}|{response : string}|고정 확장자 상태 변경|
+|/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{name : string, isActivate : boolean}]}|고정 확장자 리스트 제공||
+|/api-v1/ext-fixed|PATCH|Body{extName : string, isActivate : boolean }|{response : string}|고정 확장자 상태 변경|
 |/api-v1/ext-custom-list|GET|None|Body{ext-list : [{name : string}]}|커스텀 확장자 리스트 제공||
 |/api-v1/ext-custom|POST|Body{ext-name : string}|{response : string}|커스텀 확장자 생성||
 |/api-v1/ext-custom|Delete|Body{ext-name : string}|{response : string}|커스텀 확장자 삭제||
