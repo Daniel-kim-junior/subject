@@ -2,6 +2,8 @@ package com.ext.subject.util.common;
 
 import static lombok.AccessLevel.*;
 
+import java.time.LocalDateTime;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +23,21 @@ public class CacheScheduler {
 
 	@Scheduled(cron = "0 0 0 * * *")
 	public void evictExpiredCache() {
-		if(extensionCacheService.getFixedCacheData().getData() != null) {
+		if(isExpiredFixedCache()) {
 			extensionCacheService.expireFixedCacheData();
 		}
-		if(extensionCacheService.getCustomCacheData().getData() != null) {
+		if(isExpiredCustomCache()) {
 			extensionCacheService.expireCustomCacheData();
 		}
 	}
 
+	private boolean isExpiredCustomCache() {
+		return extensionCacheService.getCustomCacheData()
+			.getExpirationDate().compareTo(LocalDateTime.now()) > 0;
+	}
 
+	private boolean isExpiredFixedCache() {
+		return extensionCacheService.getFixedCacheData()
+			.getExpirationDate().compareTo(LocalDateTime.now()) > 0;
+	}
 }

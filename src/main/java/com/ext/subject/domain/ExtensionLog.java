@@ -37,7 +37,7 @@ public class ExtensionLog {
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn
 	private Extension extension;

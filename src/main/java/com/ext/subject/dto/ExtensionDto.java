@@ -156,13 +156,13 @@ public class ExtensionDto {
 	@NoArgsConstructor(access = PROTECTED)
 	@Getter
 	public static class PostCustomReqDto {
-		@NotBlank(message = "요청이 잘못 되었거나 공백이 포함되어 있습니다")
+		@NotNull(message = "요청이 잘못 되었습니다")
 		@Size(min = 1, max = 20, message = "1글자에서 20글자 사이로 입력해주세요.")
-		@Pattern(regexp = "^[a-zA-Z]*$", message = "영어만 입력 가능합니다.")
+		@Pattern(regexp = "^[a-z]*$", message = "공백이 포함될 수 없습니다, 영어 소문자만 지원합니다")
 		private String extName;
 
 		public PostCustomReqDto(final String extName) {
-			this.extName = extName;
+			this.extName = extName.trim();
 		}
 		public Extension customDtoToExtension() {
 			return Extension.builder()
@@ -176,9 +176,9 @@ public class ExtensionDto {
 	@NoArgsConstructor(access = PROTECTED)
 	public static class PostFixedReqDto {
 
-		@NotBlank(message = "요청이 잘못 되었거나 공백이 포함되어 있습니다")
+		@NotNull(message = "요청이 잘못 되었습니다")
 		@Size(min = 1, max = 20, message = "1글자에서 20글자 사이로 입력해주세요.")
-		@Pattern(regexp = "^[a-zA-Z]*$", message = "영어만 입력 가능합니다.")
+		@Pattern(regexp = "^[a-z]*$", message = "공백이 포함될 수 없습니다, 영어 소문자만 지원합니다")
 		private String extName;
 
 		private Boolean isActivate;

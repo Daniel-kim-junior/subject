@@ -4,7 +4,7 @@ export default class ApiClient {
   constructor(baseURL) {
     this.api = axios.create({
       baseURL: baseURL
-    })
+    });
   }
 
   async fetchData(method, url, data) {
