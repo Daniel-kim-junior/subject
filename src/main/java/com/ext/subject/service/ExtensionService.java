@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ext.subject.domain.Extension;
+import com.ext.subject.repository.ExtensionLogRepository;
 import com.ext.subject.repository.ExtensionRepository;
 import com.ext.subject.util.common.Exceed200EaCustomExt;
 import com.ext.subject.util.common.ExtReqType;
@@ -32,12 +33,12 @@ public class ExtensionService {
 
 	protected ExtensionService(final ExtensionRepository extensionRepository,
 		final ExtensionCacheService extensionCacheService,
-		final ExtensionLogService extensionLogService,
-		final HttpIpInterceptor httpIpInterceptor) {
+		final HttpIpInterceptor httpIpInterceptor,
+		final ExtensionLogService extensionLogService) {
 		this.extensionCacheService = extensionCacheService;
 		this.extensionRepository = extensionRepository;
-		this.extensionLogService = extensionLogService;
 		this.httpIpInterceptor = httpIpInterceptor;
+		this.extensionLogService = extensionLogService;
 	}
 
 	@Transactional
@@ -60,6 +61,7 @@ public class ExtensionService {
 	public void updateFixExtension(final PatchFixedReqDto dto) {
 		Extension extension = extensionRepository.findByName(dto.getExtName())
 			.orElseThrow(() -> new ExtensionNotFoundException(NOT_FOUND_EXT));
+		extension.changeActiveStatus();
 		refreshCache();
 		createLog(extension, extension.getFixedLogType());
 	}
@@ -68,6 +70,7 @@ public class ExtensionService {
 	public void deleteCustomExtension(final DeleteCustomReqDto dto) {
 		Extension extension = extensionRepository.findByName(dto.getExtName())
 			.orElseThrow(() -> new ExtensionNotFoundException(NOT_FOUND_EXT));
+		extensionRepository.delete(extension);
 		refreshCache();
 		createLog(extension, DELETE);
 	}

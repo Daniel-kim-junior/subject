@@ -3,8 +3,6 @@ package com.ext.subject.domain;
 import static com.ext.subject.dto.ExtensionDto.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
-
-import com.ext.subject.dto.ExtensionDto;
 import com.ext.subject.util.common.ExtReqType;
 import com.ext.subject.util.common.ExtensionCategory;
 
@@ -44,7 +42,7 @@ public class Extension {
 
 
 	@Column(name = "ext_isActivate")
-	private Boolean isActivate;
+	private boolean isActivate;
 
 	@Column(name = "ext_category")
 	@NonNull
@@ -77,14 +75,16 @@ public class Extension {
 	}
 
 	public GetCustomResDto customExtToDto() {
-		return GetCustomResDto.builder().build();
+		return GetCustomResDto.builder()
+			.extName(this.name)
+			.build();
 	}
 
 	@Builder
-	public Extension(final String name, final ExtensionCategory category) {
+	public Extension(final String name, final ExtensionCategory category, final boolean isActivate) {
 		this.name = name;
 		this.category = category;
+		this.isActivate = isActivate;
 	}
-
 
 }

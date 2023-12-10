@@ -7,10 +7,10 @@ export default class ApiClient {
     })
   }
 
-  async fetchData(method, url) {
+  async fetchData(method, url, data) {
     try {
       const response = await this.api.request({
-        method, url
+        method, url, data
       });
       return response;
     } catch(error) {

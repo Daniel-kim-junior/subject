@@ -1,6 +1,7 @@
 package com.ext.subject.dto;
 
 import static com.ext.subject.util.common.ExtensionCategory.*;
+import static java.lang.Boolean.*;
 import static lombok.AccessLevel.*;
 
 import java.io.Serializable;
@@ -191,6 +192,7 @@ public class ExtensionDto {
 			return Extension.builder()
 				.name(this.extName)
 				.category(FIXED)
+				.isActivate(false)
 				.build();
 		}
 	}

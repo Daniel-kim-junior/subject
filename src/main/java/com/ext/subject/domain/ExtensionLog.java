@@ -6,6 +6,8 @@ import static lombok.AccessLevel.*;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -36,6 +38,7 @@ public class ExtensionLog {
 	private Long id;
 
 	@ManyToOne(fetch = LAZY)
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn
 	private Extension extension;
 
