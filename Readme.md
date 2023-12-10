@@ -79,7 +79,7 @@ gantt
 |브라우저의 cors 처리를 해결하기 위한 클래스를 작성한다|:heavy_check_mark:|
 |확장자를 생성, 활성화/비활성화, 삭제 될때 캐시를 초기화 해준다|:heavy_check_mark:|
 |데이터를 전송하는 DTO를 만들어 유효성을 검사한다|:heavy_check_mark:|
-|스케쥴링을 통해 만료기간이 다 된 캐시는 삭제한다||
+|스케쥴링을 통해 만료기간이 다 된 캐시는 삭제한다|:heavy_check_mark:|
 |캐싱과 트랜젝션을 관리하는 Service 계층을 만든다|:heavy_check_mark:|
 |클라이언트의 요청을 받는 Controller를 작성한다|:heavy_check_mark:|
 |예외를 핸들링할 클래스를 작성한다|:heavy_check_mark:|
