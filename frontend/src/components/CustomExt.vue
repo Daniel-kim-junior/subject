@@ -9,13 +9,16 @@
               type="text"
               id="custom-ext-name"
               ref="inputValue"
+              @input="trimInput"
               v-model="inputRef"
               placeholder="확장자 입력"
               autofocus
             />
           </div>
           <div>
-            <button type="submit">+추가</button>
+            <button type="submit" :disabled="items.length === 200">
+              +추가
+            </button>
           </div>
         </div>
       </form>
@@ -31,7 +34,6 @@
             <span
               :key="item.extName"
               @click="deleteCustomData(item)"
-              :disabled="item.length === 200"
               id="cancel"
             >
               X
@@ -64,19 +66,18 @@ export default {
       },
       { deep: true }
     );
+    const trimInput = () => {
+      if (inputRef.value) {
+        inputRef.value = inputRef.value.trim();
+      }
+    };
 
     return {
       inputRef,
       inputValue,
+      trimInput,
     };
   },
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  beforeUpdate() {},
-  updated() {},
-  beforeUnmount() {},
-  unmounted() {},
   methods: {
     postCustomData() {
       this.$emit("create-custom-event", { extName: this.inputValue.value });

@@ -24,15 +24,6 @@ export default {
       required: true,
     },
   },
-  data() {},
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  beforeUnmount() {},
-  unmounted() {},
   methods: {
     patchFixedStatus(item) {
       this.$emit("patchFixedEvent", {

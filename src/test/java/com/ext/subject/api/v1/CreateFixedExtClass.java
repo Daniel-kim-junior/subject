@@ -1,4 +1,4 @@
-package com.ext.subject.api.v1EndToEndTest;
+package com.ext.subject.api.v1;
 
 import static com.ext.subject.dto.ExtensionDto.*;
 

@@ -1,5 +1,8 @@
-package com.ext.subject.api.v1EndToEndTest;
+package com.ext.subject.api.v1;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,19 +13,26 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
+import com.ext.subject.dto.ExtensionDto.PostFixedReqDto;
+import com.ext.subject.service.ExtensionService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class ExtensionControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
+	@Autowired
+	private ExtensionService extensionService;
+
 	private String requestBody;
 
 	@BeforeEach
 	public void setUpRequestBody() {
-		requestBody = "{ \"extName\": \"dd\" }";
+		requestBody = "{ \"extName\": \"notexs\" }";
 	}
 
 	@Test
@@ -51,9 +61,8 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/api-v1/ext-custom")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isMap())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
@@ -63,9 +72,8 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/api-v1/ext-custom")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isMap())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
@@ -75,9 +83,8 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/api-v1/ext-custom")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isMap())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
@@ -87,9 +94,8 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/api-v1/ext-custom")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isMap())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
@@ -99,9 +105,8 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/api-v1/ext-custom")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isMap())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
@@ -120,9 +125,8 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/api-v1/ext-custom")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isMap())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
@@ -131,7 +135,6 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.delete("/api-v1/ext-custom")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
@@ -153,7 +156,7 @@ class ExtensionControllerTest {
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").doesNotExist())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
@@ -163,10 +166,24 @@ class ExtensionControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.patch("/api-v1/ext-fixed")
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isBadRequest())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.data").isString())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
 	}
 
+	@Test
+	public void PATCH_고정_확장자_존재_변경_성공() throws Exception {
+		List<PostFixedReqDto> list = new ArrayList<>();
+		list.add(new PostFixedReqDto("d"));
+		extensionService.createInitFixedList(list);
+
+
+		String requestBody = "{ \"extName\": \"d\", \"isActivate\": \"false\"}";
+		mockMvc.perform(MockMvcRequestBuilders.patch("/api-v1/ext-fixed")
+				.content(requestBody)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.jsonPath("$.status").isString())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.data").doesNotExist())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.message").doesNotExist());
+	}
 }

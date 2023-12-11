@@ -1,13 +1,14 @@
 package com.ext.subject.dto;
 
 import static com.ext.subject.util.common.ExtensionCategory.*;
-import static java.lang.Boolean.*;
 import static lombok.AccessLevel.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.cglib.core.Local;
 
 import com.ext.subject.domain.Extension;
 import jakarta.validation.constraints.NotBlank;
@@ -46,88 +47,17 @@ public class ExtensionDto {
 		@NotNull
 		private Boolean isActivate;
 
+		@NotNull
+		private LocalDateTime expiredDate;
+
 		@Builder
 		public GetFixedResDto(final String extName, final Boolean isActivate) {
 			this.extName = extName;
 			this.isActivate = isActivate;
+			this.expiredDate = LocalDateTime.now().plusDays(10);
 		}
 	}
 
-	@NoArgsConstructor
-	@Getter
-	public static class FixedListCacheData implements Serializable {
-
-		@NotNull
-		private List<GetFixedResDto> data;
-
-		@NotNull
-		private LocalDateTime expirationDate;
-
-		@Builder
-		public FixedListCacheData(final List<GetFixedResDto> data, final LocalDateTime expirationDate) {
-			this.data = data;
-			this.expirationDate = expirationDate;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (o == null || getClass() != o.getClass()) {
-				return false;
-			}
-			final FixedListCacheData that = (FixedListCacheData) o;
-			return Objects.equals(data, that.data) && Objects.equals(expirationDate, that.expirationDate);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(data, expirationDate);
-		}
-	}
-
-
-
-	@NoArgsConstructor(access = PROTECTED)
-	@Getter
-	public static class PatchFixedResDto {
-
-
-	}
-
-	@NoArgsConstructor
-	@Getter
-	public static class CustomListCacheData implements Serializable {
-		@NotNull
-		private List<GetCustomResDto> data;
-
-		@NotNull
-		private LocalDateTime expirationDate;
-
-		@Builder
-		public CustomListCacheData(final List<GetCustomResDto> data, final LocalDateTime expirationDate) {
-			this.data = data;
-			this.expirationDate = expirationDate;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (o == null || getClass() != o.getClass()) {
-				return false;
-			}
-			final CustomListCacheData that = (CustomListCacheData)o;
-			return Objects.equals(data, that.data) && Objects.equals(expirationDate, that.expirationDate);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(data, expirationDate);
-		}
-	}
 
 	@NoArgsConstructor(access = PROTECTED)
 	@Getter
@@ -135,9 +65,13 @@ public class ExtensionDto {
 		@NotNull
 		private String extName;
 
+		@NotNull
+		private LocalDateTime expiredDate;
+
 		@Builder
-		public GetCustomResDto(final String extName) {
+		public GetCustomResDto(String extName) {
 			this.extName = extName;
+			this.expiredDate = LocalDateTime.now().plusDays(10);
 		}
 	}
 
@@ -177,7 +111,7 @@ public class ExtensionDto {
 	public static class PostFixedReqDto {
 
 		@NotNull(message = "요청이 잘못 되었습니다")
-		@Size(min = 1, max = 20, message = "1글자에서 20글자 사이로 입력해주세요.")
+		@Size(min = 1, max = 20, message = "1글자에서 20글자 사이로 영문 입력해주세요.")
 		@Pattern(regexp = "^[a-z]*$", message = "공백이 포함될 수 없습니다, 영어 소문자만 지원합니다")
 		private String extName;
 

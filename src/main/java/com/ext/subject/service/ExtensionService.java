@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ext.subject.domain.Extension;
-import com.ext.subject.repository.ExtensionLogRepository;
 import com.ext.subject.repository.ExtensionRepository;
-import com.ext.subject.util.common.Exceed200EaCustomExt;
+import com.ext.subject.util.common.Exceed200EaException;
 import com.ext.subject.util.common.ExtReqType;
 import com.ext.subject.util.common.ExtensionNotFoundException;
 import com.ext.subject.util.common.HttpIpInterceptor;
@@ -23,26 +22,24 @@ public class ExtensionService {
 
 	private final ExtensionRepository extensionRepository;
 
-	private final ExtensionCacheService extensionCacheService;
-
 	private final ExtensionLogService extensionLogService;
 
 	private final HttpIpInterceptor httpIpInterceptor;
 
-	private static final String NOT_FOUND_EXT = "삭제 하려는 확장자가 존재하지 않습니다";
+	private static final String DEL_NOT_FOUND = "삭제 하려는 확장자가 존재하지 않습니다";
+
+	private static final String CHA_NOT_FOUND = "변경 하려는 확장자가 존재하지 않습니다";
 
 	protected ExtensionService(final ExtensionRepository extensionRepository,
-		final ExtensionCacheService extensionCacheService,
 		final HttpIpInterceptor httpIpInterceptor,
 		final ExtensionLogService extensionLogService) {
-		this.extensionCacheService = extensionCacheService;
 		this.extensionRepository = extensionRepository;
 		this.httpIpInterceptor = httpIpInterceptor;
 		this.extensionLogService = extensionLogService;
 	}
 
 	@Transactional
-	public void createCustomExtension(final PostCustomReqDto dto) {
+	public List<GetCustomResDto> createCustomExtension(final PostCustomReqDto dto) {
 		/**
 		 * validation
 		 * 1. 공백을 포함하거나 영어가 아닌 문자가 포함되는 확장자 이름일 때
@@ -51,65 +48,61 @@ public class ExtensionService {
 		 * 4. 중복되는 확장자일 때(hibernate exception unique key)
 		 * 5. 고정 확장자에 속해 있는 확장자 이름일 때
 		 */
-		readCustomExtensions();
+		validationCustom();
 		Extension extension = extensionRepository.save(dto.customDtoToExtension());
-		refreshCache();
-		createLog(extension,CREATE);
+		createLog(extension, CREATE);
+		return readCustomExtensions();
+	}
+
+	private void validationCustom() {
+		if (extensionRepository.findByCategory(CUSTOM).size() >= 200) {
+			throw new Exceed200EaException("최대 200개의 확장자만 등록할 수 있습니다");
+		}
 	}
 
 	@Transactional
-	public void updateFixExtension(final PatchFixedReqDto dto) {
+	public List<GetFixedResDto> updateFixExtension(final PatchFixedReqDto dto) {
 		Extension extension = extensionRepository.findByName(dto.getExtName())
-			.orElseThrow(() -> new ExtensionNotFoundException(NOT_FOUND_EXT));
+			.orElseThrow(() -> new ExtensionNotFoundException(CHA_NOT_FOUND));
 		extension.changeActiveStatus();
-		refreshCache();
 		createLog(extension, extension.getFixedLogType());
+		return readFixedExtensions();
 	}
 
 	@Transactional
-	public void deleteCustomExtension(final DeleteCustomReqDto dto) {
+	public List<GetCustomResDto> deleteCustomExtension(final DeleteCustomReqDto dto) {
 		Extension extension = extensionRepository.findByName(dto.getExtName())
-			.orElseThrow(() -> new ExtensionNotFoundException(NOT_FOUND_EXT));
+			.orElseThrow(() -> new ExtensionNotFoundException(DEL_NOT_FOUND));
 		extensionRepository.delete(extension);
-		refreshCache();
 		createLog(extension, DELETE);
+		return readCustomExtensions();
 	}
 
-	@Transactional(readOnly = true)
 	public List<GetFixedResDto> readFixedExtensions() {
-		if (extensionCacheService.isEmptyFixedCache()) {
-			return extensionRepository.findByCategory(FIXED)
-				.stream().map(e -> e.fixExtToDto()).collect(Collectors.toList());
-		}
-		return extensionCacheService.getFixedCacheData().getData();
+		return extensionRepository.findByCategory(FIXED)
+			.stream().map(e -> e.fixExtToDto())
+			.collect(Collectors.toList());
 	}
 
-	@Transactional(readOnly = true)
-	@Exceed200EaCustomExt
 	public List<GetCustomResDto> readCustomExtensions() {
-		if (extensionCacheService.isEmptyCustomCache()) {
-			return extensionRepository.findByCategory(CUSTOM)
-				.stream().map(e -> e.customExtToDto()).collect(Collectors.toList());
-		}
-		return extensionCacheService.getCustomCacheData().getData();
+		return extensionRepository.findByCategory(CUSTOM)
+			.stream().map(e -> e.customExtToDto())
+			.collect(Collectors.toList());
 	}
 
 	@Transactional
-	public void createInitFixedList(List<PostFixedReqDto> list) {
+	public List<GetFixedResDto> createInitFixedList(List<PostFixedReqDto> list) {
 		list.stream().forEach(this::proceedSave);
-		refreshCache();
+		return readFixedExtensions();
 	}
+
 
 	private void createLog(Extension extension, ExtReqType type) {
 		extensionLogService.createExtLog(extension.makeLog(extension, httpIpInterceptor.getIp(), type));
 	}
 
-	private void refreshCache() {
-		extensionCacheService.refreshFixedExtensions(readFixedExtensions());
-	}
-
 	private void proceedSave(PostFixedReqDto e) {
 		Extension extension = extensionRepository.save(e.dtoToFixExtension());
-		extensionLogService.createExtLog(extension.makeLog(extension, httpIpInterceptor.getIp(), CREATE));
+		createLog(extension, CREATE);
 	}
 }

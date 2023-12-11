@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -29,6 +30,7 @@ import lombok.NonNull;
 	}
 )
 @NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Extension {
 
 	@Id

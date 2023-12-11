@@ -1,4 +1,4 @@
-package com.ext.subject.api.v1EndToEndTest;
+package com.ext.subject.api.v1;
 
 import static com.ext.subject.dto.ExtensionDto.*;
 
@@ -14,52 +14,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ext.subject.service.ExtensionCacheService;
 import com.ext.subject.service.ExtensionService;
 import com.ext.subject.util.common.ApiResponse;
 
 @RestController
 @RequestMapping(value = "/api-v1")
 public class ExtensionController {
-	private final ExtensionService extensionService;
+	private final ExtensionCacheService extensionService;
 
-	public ExtensionController(final ExtensionService extensionService) {
+	public ExtensionController(ExtensionCacheService extensionService) {
 		this.extensionService = extensionService;
 	}
 
 	@PostMapping("/ext-fixed-list")
 	public ApiResponse postInitFixedList(@RequestBody @Validated List<PostFixedReqDto> list) {
-		extensionService.createInitFixedList(list);
+		// extensionService.createInitFixedList(list);
 		return ApiResponse.createSuccessNoContent();
 	}
 
 
 	@GetMapping("/excl/ext-fixed-list")
 	public ApiResponse<List<GetFixedResDto>> getFixedList() {
-		List<GetFixedResDto> getFixedResDtos = extensionService.readFixedExtensions();
+		List<GetFixedResDto> getFixedResDtos = extensionService.getFixedCacheData();
 		return ApiResponse.createSuccess(getFixedResDtos);
 	}
 
 	@GetMapping("/excl/ext-custom-list")
-	public ApiResponse<List<GetCustomResDto>> getCustomList() {
-		List<GetCustomResDto> getCustomResDtos = extensionService.readCustomExtensions();
+	public ApiResponse<List<GetCustomResDto>> getCustomList() throws Exception {
+		List<GetCustomResDto> getCustomResDtos = extensionService.getCustomCacheData();
 		return ApiResponse.createSuccess(getCustomResDtos);
 	}
 
 	@PatchMapping("/ext-fixed")
 	public ApiResponse patchFixedExt(@RequestBody @Validated PatchFixedReqDto dto) {
-		extensionService.updateFixExtension(dto);
+		extensionService.patchFixedCacheUpdate(dto);
 		return ApiResponse.createSuccessNoContent();
 	}
 
 	@PostMapping("/ext-custom")
-	public ApiResponse postCustomExt(@RequestBody @Validated PostCustomReqDto dto) {
-		extensionService.createCustomExtension(dto);
+	public ApiResponse postCustomExt(@RequestBody @Validated PostCustomReqDto dto) throws Exception {
+		extensionService.refreshCustomExtensions(dto);
 		return ApiResponse.createSuccessNoContent();
 	}
 
 	@DeleteMapping("/ext-custom")
 	public ApiResponse deleteCustomExt(@RequestBody final DeleteCustomReqDto dto) {
-		extensionService.deleteCustomExtension(dto);
+		extensionService.deleteCustomCacheUpdate(dto);
 		return ApiResponse.createSuccessNoContent();
 	}
 

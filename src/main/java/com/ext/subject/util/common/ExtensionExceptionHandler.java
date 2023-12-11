@@ -28,11 +28,16 @@ public class ExtensionExceptionHandler {
 		return ApiResponse.createError(message);
 	}
 
+	@ExceptionHandler(Exceed200EaException.class)
+	public ApiResponse<?> handleExceed200Exception(final Exceed200EaException ex) {
+		return ApiResponse.createError(ex.getMessage());
+	}
+
+
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ApiResponse<?> handleHibernateViolationException(final ConstraintViolationException ex) {
 		return ApiResponse.createHibernateFail(ex);
 	}
-
 	@ExceptionHandler(ExtensionNotFoundException.class)
 	public ApiResponse<String> handleExtNotFoundException(final ExtensionNotFoundException ex) {
 		return ApiResponse.createError(ex.getMessage());

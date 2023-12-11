@@ -1,9 +1,6 @@
 package com.ext.subject.service;
 
 import static com.ext.subject.dto.ExtensionDto.*;
-import static lombok.AccessLevel.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,47 +8,34 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.ext.subject.repository.ExtensionLogRepository;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 @Service
-@NoArgsConstructor(access = PROTECTED)
 public class ExtensionCacheService {
 
-	private static final FixedListCacheData EMPTY_FIXED_CACHE = new FixedListCacheData();
+	private final ExtensionService extensionService;
 
-	private static final CustomListCacheData EMPTY_CUSTOM_CACHE = new CustomListCacheData();
+	public ExtensionCacheService(ExtensionService extensionService) {
+		this.extensionService = extensionService;
+	}
+
 
 	@Cacheable(value = "FixExtensionStore", key = "'fixedListData'")
-	public FixedListCacheData getFixedCacheData() {
-		return EMPTY_FIXED_CACHE;
+	public List<GetFixedResDto> getFixedCacheData() {
+		return extensionService.readFixedExtensions();
 	}
 
-	public boolean isEmptyFixedCache() {
-		return getFixedCacheData() == EMPTY_FIXED_CACHE ? true : false;
-	}
-
-	public boolean isEmptyCustomCache() {
-		return getCustomCacheData() == EMPTY_CUSTOM_CACHE ? true : false;
+	@Cacheable(value = "CustomExtensionStore", key = "'customListData'")
+	public List<GetCustomResDto> getCustomCacheData() {
+		return extensionService.readCustomExtensions();
 	}
 
 	@CachePut(value = "FixExtensionStore", key = "'fixedListData'")
-	public FixedListCacheData refreshFixedExtensions(final List<GetFixedResDto> data) {
-		return FixedListCacheData.builder()
-			.data(data)
-			.expirationDate(LocalDateTime.now().plusDays(10))
-			.build();
+	public List<GetFixedResDto> refreshFixedExtensions(final List<PostFixedReqDto> dto) {
+		return extensionService.createInitFixedList(dto);
 	}
 
 	@CachePut(value = "CustomExtensionStore", key = "'customListData'")
-	public CustomListCacheData refreshCustomExtensions(final List<GetCustomResDto> data) {
-		return CustomListCacheData.builder()
-			.data(data)
-			.expirationDate(LocalDateTime.now().plusDays(10))
-			.build();
-
+	public List<GetCustomResDto> refreshCustomExtensions(final PostCustomReqDto data) {
+		return extensionService.createCustomExtension(data);
 	}
 
 	@CacheEvict(value = "FixExtensionStore", key = "'fixedListData'")
@@ -59,13 +43,18 @@ public class ExtensionCacheService {
 		return true;
 	}
 
-	@CacheEvict(value = "CustomExtensionStore", key = "'customListData")
+	@CacheEvict(value = "CustomExtensionStore", key = "'customListData'")
 	public boolean expireCustomCacheData() {
 		return true;
 	}
 
-	@Cacheable(value = "CustomExtensionStore", key = "'customListData'")
-	public CustomListCacheData getCustomCacheData() {
-		return EMPTY_CUSTOM_CACHE;
+	@CachePut(value = "FixExtensionStore", key = "'fixedListData'")
+	public List<GetFixedResDto> patchFixedCacheUpdate(final PatchFixedReqDto dto) {
+		return extensionService.updateFixExtension(dto);
+	}
+
+	@CachePut(value = "CustomExtensionStore", key = "'customListData'")
+	public List<GetCustomResDto> deleteCustomCacheUpdate(final DeleteCustomReqDto dto) {
+		return extensionService.deleteCustomExtension(dto);
 	}
 }

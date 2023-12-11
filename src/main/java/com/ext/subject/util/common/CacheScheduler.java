@@ -3,10 +3,14 @@ package com.ext.subject.util.common;
 import static lombok.AccessLevel.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.ext.subject.dto.ExtensionDto;
+import com.ext.subject.dto.ExtensionDto.GetCustomResDto;
+import com.ext.subject.dto.ExtensionDto.GetFixedResDto;
 import com.ext.subject.service.ExtensionCacheService;
 
 import lombok.NoArgsConstructor;
@@ -23,21 +27,27 @@ public class CacheScheduler {
 
 	@Scheduled(cron = "0 0 0 * * *")
 	public void evictExpiredCache() {
-		if(isExpiredFixedCache()) {
+		if(isFixedCache()) {
 			extensionCacheService.expireFixedCacheData();
 		}
-		if(isExpiredCustomCache()) {
+		if(isCustomCache()) {
 			extensionCacheService.expireCustomCacheData();
 		}
 	}
 
-	private boolean isExpiredCustomCache() {
-		return extensionCacheService.getCustomCacheData()
-			.getExpirationDate().compareTo(LocalDateTime.now()) > 0;
+	private boolean isCustomCache() {
+		List<GetCustomResDto> data = extensionCacheService.getCustomCacheData();
+		if(data == null || data.size() == 0) {
+			return false;
+		}
+		return true;
 	}
 
-	private boolean isExpiredFixedCache() {
-		return extensionCacheService.getFixedCacheData()
-			.getExpirationDate().compareTo(LocalDateTime.now()) > 0;
+	private boolean isFixedCache() {
+		List<GetFixedResDto> data = extensionCacheService.getFixedCacheData();
+		if(data == null || data.size() == 0) {
+			return false;
+		}
+		return true;
 	}
 }
