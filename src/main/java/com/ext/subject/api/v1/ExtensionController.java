@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ext.subject.service.ExtensionCacheService;
-import com.ext.subject.service.ExtensionService;
 import com.ext.subject.util.common.ApiResponse;
 
 @RestController
@@ -29,7 +28,7 @@ public class ExtensionController {
 
 	@PostMapping("/ext-fixed-list")
 	public ApiResponse postInitFixedList(@RequestBody @Validated List<PostFixedReqDto> list) {
-		// extensionService.createInitFixedList(list);
+		extensionService.refreshFixedExtensions(list);
 		return ApiResponse.createSuccessNoContent();
 	}
 
@@ -41,7 +40,7 @@ public class ExtensionController {
 	}
 
 	@GetMapping("/excl/ext-custom-list")
-	public ApiResponse<List<GetCustomResDto>> getCustomList() throws Exception {
+	public ApiResponse<List<GetCustomResDto>> getCustomList() {
 		List<GetCustomResDto> getCustomResDtos = extensionService.getCustomCacheData();
 		return ApiResponse.createSuccess(getCustomResDtos);
 	}
@@ -53,7 +52,7 @@ public class ExtensionController {
 	}
 
 	@PostMapping("/ext-custom")
-	public ApiResponse postCustomExt(@RequestBody @Validated PostCustomReqDto dto) throws Exception {
+	public ApiResponse postCustomExt(@RequestBody @Validated PostCustomReqDto dto) {
 		extensionService.refreshCustomExtensions(dto);
 		return ApiResponse.createSuccessNoContent();
 	}

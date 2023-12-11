@@ -1,6 +1,5 @@
 package com.ext.subject.domain;
 
-import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 

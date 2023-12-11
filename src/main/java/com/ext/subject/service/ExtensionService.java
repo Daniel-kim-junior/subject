@@ -78,6 +78,12 @@ public class ExtensionService {
 		return readCustomExtensions();
 	}
 
+	@Transactional
+	public List<GetFixedResDto> createInitFixedList(List<PostFixedReqDto> list) {
+		list.stream().forEach(this::proceedSave);
+		return readFixedExtensions();
+	}
+
 	public List<GetFixedResDto> readFixedExtensions() {
 		return extensionRepository.findByCategory(FIXED)
 			.stream().map(e -> e.fixExtToDto())
@@ -88,12 +94,6 @@ public class ExtensionService {
 		return extensionRepository.findByCategory(CUSTOM)
 			.stream().map(e -> e.customExtToDto())
 			.collect(Collectors.toList());
-	}
-
-	@Transactional
-	public List<GetFixedResDto> createInitFixedList(List<PostFixedReqDto> list) {
-		list.stream().forEach(this::proceedSave);
-		return readFixedExtensions();
 	}
 
 

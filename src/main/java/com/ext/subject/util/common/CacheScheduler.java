@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.ext.subject.dto.ExtensionDto;
 import com.ext.subject.dto.ExtensionDto.GetCustomResDto;
 import com.ext.subject.dto.ExtensionDto.GetFixedResDto;
 import com.ext.subject.service.ExtensionCacheService;
@@ -40,12 +39,18 @@ public class CacheScheduler {
 		if(data == null || data.size() == 0) {
 			return false;
 		}
+		if(data.get(0).getExpiredDate().compareTo(LocalDateTime.now()) < 0) {
+			return false;
+		}
 		return true;
 	}
 
 	private boolean isFixedCache() {
 		List<GetFixedResDto> data = extensionCacheService.getFixedCacheData();
 		if(data == null || data.size() == 0) {
+			return false;
+		}
+		if(data.get(0).getExpiredDate().compareTo(LocalDateTime.now()) < 0) {
 			return false;
 		}
 		return true;

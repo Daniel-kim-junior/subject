@@ -1,8 +1,4 @@
 package com.ext.subject.util.common;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.hibernate.exception.ConstraintViolationException;
 
 import lombok.AccessLevel;

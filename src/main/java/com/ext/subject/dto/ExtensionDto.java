@@ -2,14 +2,7 @@ package com.ext.subject.dto;
 
 import static com.ext.subject.util.common.ExtensionCategory.*;
 import static lombok.AccessLevel.*;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-
-import org.springframework.cglib.core.Local;
-
 import com.ext.subject.domain.Extension;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
