@@ -104,7 +104,7 @@ gantt
 
 
 ## 5. 도메인 분석 및 설계
-- 확장자(Extension) 테이블 1 ----- N 확장자 로그(Extension) 테이블
+- 확장자(Extension) 테이블 1 ----- N 확장자 로그(ExtensionLog) 테이블
 - ORM을 사용한 확장자 로그 엔티티가 단방향으로 참조 중(FK : 확장자 ID Nuallable)
 - 확장자가 생성, 수정, 삭제, 활성화/비활성화 시 로깅(접속자 IP 및 요청 기록)
 - 확장자 서비스는 write/update 보다 Read가 빈번할 것 같아 Spring Cache를 이용해 캐싱
