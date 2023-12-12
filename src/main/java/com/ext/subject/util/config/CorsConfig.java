@@ -14,7 +14,7 @@ public class CorsConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("*");
+		config.addAllowedOrigin("http://refresh.directory");
 		config.addAllowedHeader("*"); // 모든 헤더 허용
 		config.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
 		source.registerCorsConfiguration("/**", config);
