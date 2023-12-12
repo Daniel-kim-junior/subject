@@ -23,7 +23,7 @@ export default {
     CustomContainer,
   },
   data() {
-    const baseURL = "http://localhost:8080";
+    const baseURL = "http://refresh.directory:8080";
     return {
       getCustomExtURL: "/api-v1/excl/ext-custom-list",
       getFixedExtURL: "/api-v1/excl/ext-fixed-list",
