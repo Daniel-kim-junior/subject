@@ -1,4 +1,4 @@
-package com.ext.subject.util.common;
+package com.ext.subject.util.exception;
 
 public class ExtensionNotFoundException extends RuntimeException{
 	public ExtensionNotFoundException(String message) {

@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ext.subject.domain.Extension;
 import com.ext.subject.repository.ExtensionRepository;
-import com.ext.subject.util.common.Exceed200EaException;
+import com.ext.subject.util.exception.Exceed200EaException;
 import com.ext.subject.util.common.ExtReqType;
-import com.ext.subject.util.common.ExtensionNotFoundException;
+import com.ext.subject.util.exception.ExtensionNotFoundException;
 import com.ext.subject.util.common.HttpIpInterceptor;
 
 @Service

@@ -1,8 +1,10 @@
-package com.ext.subject.util.common;
+package com.ext.subject.util.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.ext.subject.util.common.HttpIpInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

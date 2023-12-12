@@ -1,10 +1,12 @@
-package com.ext.subject.util.common;
+package com.ext.subject.util.exception;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.ext.subject.util.common.ApiResponse;
 
 @RestControllerAdvice
 public class ExtensionExceptionHandler {
