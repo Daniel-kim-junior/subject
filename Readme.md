@@ -22,7 +22,7 @@ gantt
 |프론트엔드|Vue.js|
 |백엔드|SpringBoot 3|
 |DB|MySQL 8.0|
-|배포|Docker, Nginx, AWS EC2|
+|배포|Docker, Nginx, GCP|
 
 ## 2. 요구사항 정의
 
@@ -104,15 +104,19 @@ gantt
 
 
 ## 5. 도메인 분석 및 설계
+확장자(Extension) 테이블 1 ----- N 확장자 로그(Extension) 테이블
+ORM을 사용한 확장자 로그 엔티티가 단방향으로 참조 중(FK : 확장자 ID Nuallable)
+확장자가 생성, 수정, 삭제, 활성화/비활성화 시 로깅
+확장자 서비스는 write/update 보다 Read가 빈번할 것 같아 Spring Cache를 이용해 캐싱
+스케줄링을 통해 자정에 caching expired 된 데이터를 expire
 
-
-## 6.  ERD와 매핑
 
 
 ## 7. 테스트
-
+Springboot Controller End To End Test 진행
 
 
 ## 8. 배포 아키텍쳐
-
+Nginx 서버에 Vue 정적 빌드 파일 로드
+Spring boot, DB와 함께 도커 패키징 후 GCP VM에 프로비저닝
 
