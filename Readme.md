@@ -22,7 +22,7 @@ gantt
 |프론트엔드|Vue.js|
 |백엔드|SpringBoot 3|
 |DB|MySQL 8.0|
-|배포|Docker, Nginx, AWS EC2|
+|배포|Docker, Nginx, GCP|
 
 ## 2. 요구사항 정의
 
@@ -95,24 +95,28 @@ gantt
 
 |Api Path|Method|Request|Response |Description|구현|
 |--------|-------|---------|----------|-----------|----|
-|/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{extName : string, isActivate : boolean}]}|고정 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/excl/ext-fixed-list|GET|None|Body{ext-list : [{extName : string, isActivate : boolean}]}|고정 확장자 리스트 제공|:heavy_check_mark:|
 |/api-v1/ext-fixed|PATCH|Body{extName : string, isActivate : boolean }|{status : string, message : string}|고정 확장자 상태 변경|:heavy_check_mark:|
-|/api-v1/ext-custom-list|GET|None|Body{ext-list : [{extName : string}]}|커스텀 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/excl/ext-custom-list|GET|None|Body{ext-list : [{extName : string}]}|커스텀 확장자 리스트 제공|:heavy_check_mark:|
 |/api-v1/ext-custom|POST|Body{ext-name : string}|{status : string, message : string}|커스텀 확장자 생성|:heavy_check_mark:|
 |/api-v1/ext-custom|Delete|Body{ext-name : string}|{status : string, message : string}|커스텀 확장자 삭제|:heavy_check_mark:|
 
 
 
 ## 5. 도메인 분석 및 설계
-
-
-## 6.  ERD와 매핑
+- 확장자(Extension) 테이블 1 ----- N 확장자 로그(Extension) 테이블
+- ORM을 사용한 확장자 로그 엔티티가 단방향으로 참조 중(FK : 확장자 ID Nuallable)
+- 확장자가 생성, 수정, 삭제, 활성화/비활성화 시 로깅(접속자 IP 및 요청 기록)
+- 확장자 서비스는 write/update 보다 Read가 빈번할 것 같아 Spring Cache를 이용해 캐싱
+- 스케줄링을 통해 자정에 caching expired 된 데이터를 expire
+- 프론트엔드 백엔드 모두 유효성 검사 진행 공백 입력 불가 및 커스텀 확장자 200개 도달 시 버튼 disable 및 서버 예외 처리
 
 
 ## 7. 테스트
-
+Springboot Controller End To End Test 진행
 
 
 ## 8. 배포 아키텍쳐
-
+Nginx 서버에 Vue 정적 빌드 파일 로드
+Spring boot, DB와 함께 도커 패키징 후 GCP VM에 프로비저닝
 
