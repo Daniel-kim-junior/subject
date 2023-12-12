@@ -95,9 +95,9 @@ gantt
 
 |Api Path|Method|Request|Response |Description|구현|
 |--------|-------|---------|----------|-----------|----|
-|/api-v1/ext-fixed-list|GET|None|Body{ext-list : [{extName : string, isActivate : boolean}]}|고정 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/excl/ext-fixed-list|GET|None|Body{ext-list : [{extName : string, isActivate : boolean}]}|고정 확장자 리스트 제공|:heavy_check_mark:|
 |/api-v1/ext-fixed|PATCH|Body{extName : string, isActivate : boolean }|{status : string, message : string}|고정 확장자 상태 변경|:heavy_check_mark:|
-|/api-v1/ext-custom-list|GET|None|Body{ext-list : [{extName : string}]}|커스텀 확장자 리스트 제공|:heavy_check_mark:|
+|/api-v1/excl/ext-custom-list|GET|None|Body{ext-list : [{extName : string}]}|커스텀 확장자 리스트 제공|:heavy_check_mark:|
 |/api-v1/ext-custom|POST|Body{ext-name : string}|{status : string, message : string}|커스텀 확장자 생성|:heavy_check_mark:|
 |/api-v1/ext-custom|Delete|Body{ext-name : string}|{status : string, message : string}|커스텀 확장자 삭제|:heavy_check_mark:|
 
